@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SkyHighSundae File Manager</title>
+    <style>
+        /* Modern fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>SkyHighSundae File Manager</h1>
+    <h2>Current Directory: <%= currentPath || '/' %></h2>
+    <ul>
+        <% if (currentPath) { %>
+            <li>
+                <a href="/?path=<%= encodeURIComponent(currentPath.split('/').slice(0, -1).join('/')) %>">.. (Parent Directory)</a>
+                <button class="btn">Back</button>
+            </li>
+        <% } %>
+        <% entries.forEach(entry => { %>
+            <li>
+                <% if (entry.type === 'directory') { %>
+                    <a href="/?path=<%= encodeURIComponent(entry.path) %>"><%= entry.name %> (Directory)</a>
+                <% } else { %>
+                    <a href="/download?path=<%= encodeURIComponent(entry.path) %>"><%= entry.name %> (File)</a>
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
